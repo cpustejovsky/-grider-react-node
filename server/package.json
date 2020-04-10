@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/cpustejovsky/-grider-react-node/issues"
   },
-  "homepage": "https://github.com/cpustejovsky/-grider-react-node#readme"
+  "homepage": "https://github.com/cpustejovsky/-grider-react-node#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
