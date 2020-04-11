@@ -1,5 +1,13 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const keys = require("./config/keys");
+require("./models/User")
 require("./services/passport");
+
+mongoose.connect(
+  `mongodb+srv://cpustejovsky:${keys.MONGODB_PASSWORD}@cluster0-rwgbh.mongodb.net/test?retryWrites=true&w=majority`,
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 const app = express();
 
