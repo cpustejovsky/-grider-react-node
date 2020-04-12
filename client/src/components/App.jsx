@@ -6,7 +6,6 @@ import Landing from './Landing'
 import Dashboard from './Dashboard'
 import SurveyForm from './SurveyForm'
 import SurveyList from './SurveyList'
-import "materialize-css"
 function App() {
   return (
     <div>
