@@ -20,6 +20,7 @@ module.exports = (app) => {
   });
 
   app.get("/logout", (req, res) => {
+    console.log("logging out")
     req.logout();
     res.redirect("/");
   });
