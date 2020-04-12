@@ -5,6 +5,15 @@ const keys = require("../config/keys");
 //model class
 const User = mongoose.model("users");
 
+passport.serializeUser((user, done)=> {
+    done(null, user.id);
+})
+
+passport.deserializeUser(async(id, done)=> {
+    const foundUser = await User.findById(id)
+    done(null, foundUser);
+})
+
 passport.use(
   new GoogleStrategy(
     {
@@ -12,9 +21,15 @@ passport.use(
       clientSecret: keys.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:5000/auth/google/callback",
     },
-    function (accessToken, refreshToken, profile, done) {
-      //TODO: why not use findOrCreate... why use Mongoose isntead of MongoDB?
-      new User({ googleId: profile.id }).save();
+    async function (accessToken, refreshToken, profile, done) {
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) {
+        console.log("user already exists");
+        done(null, existingUser);
+      } else {
+        const newUser = await new User({ googleId: profile.id }).save();
+        done(null, newUser);
+      }
     }
   )
 );
