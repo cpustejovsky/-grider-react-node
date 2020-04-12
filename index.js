@@ -31,4 +31,4 @@ app.get("/", (req, res) => {
   res.send("<h1>Home Page!</h1><div><a href='/auth/google'>Login</a></div><div><a href='/logout'>Logout</a></div><div><a href='/api/current_user'>Check Current User</a></div>");
 });
 
-app.listen(PORT, console.log(`listening on port ${PORT}`));
+app.listen(PORT, console.log(`listening on port ${PORT} \n ${process.env.NODE_ENV}`));

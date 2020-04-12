@@ -5,14 +5,14 @@ const keys = require("../config/keys");
 //model class
 const User = mongoose.model("users");
 
-passport.serializeUser((user, done)=> {
-    done(null, user.id);
-})
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-passport.deserializeUser(async(id, done)=> {
-    const foundUser = await User.findById(id)
-    done(null, foundUser);
-})
+passport.deserializeUser(async (id, done) => {
+  const foundUser = await User.findById(id);
+  done(null, foundUser);
+});
 
 passport.use(
   new GoogleStrategy(
@@ -27,7 +27,13 @@ passport.use(
         console.log("user already exists");
         done(null, existingUser);
       } else {
-        const newUser = await new User({ googleId: profile.id }).save();
+          console.log(profile.emails)
+        const newUser = await new User({
+          googleId: profile.id,
+          email: profile.emails[0].value,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+        }).save();
         done(null, newUser);
       }
     }
