@@ -35,5 +35,5 @@ app.get("/", (req, res) => {
 
 app.listen(
   PORT,
-  console.log(`listening on port ${PORT} \n ${process.env.NODE_ENV}`)
+  console.log(`listening on port ${PORT}`)
 );
