@@ -11,8 +11,7 @@ module.exports = (app) => {
     res
   ) {
     // Successful authentication, redirect home.
-    console.log("it worked!");
-    res.redirect("/");
+    res.redirect("/surveys");
   });
 
   app.get("/api/current_user", (req, res) => {
