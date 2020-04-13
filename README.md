@@ -1,9 +1,12 @@
 # Grider's React and Node Course
 
-Going to be a feedback campaign generator for companies. Sends campaigns via email. Accepts payment via Strype. 
-
-Authentication done through passport
-
-Form done through Redux Form
+## Thoughts on Billing Web Applications
+* You are bad at security (same principle as cryptography, etc.)
+  * Never accept raw credit card numbers
+  * Never store credit card numbers
+  * Always use an outside payment processor
+* Billing is hard
+  * Possible to avoid monthly payments and multiple plans?
+  * Fraud and chargebacks are a pain
 
 
