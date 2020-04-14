@@ -2,10 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const keys = require("./config/keys");
 require("./models/User");
 require("./services/passport");
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(keys.MONGODB_URL, {
   useNewUrlParser: true,
@@ -14,7 +15,7 @@ mongoose.connect(keys.MONGODB_URL, {
 
 const app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
@@ -28,15 +29,13 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 
-const PORT = process.env.PORT || 5000;
-
-app.get("/", (req, res) => {
-  res.send(
-    "<h1>Home Page!</h1><div><a href='/auth/google'>Login</a></div><div><a href='/logout'>Logout</a></div><div><a href='/api/current_user'>Check Current User</a></div>"
-  );
-});
-
-app.listen(
-  PORT,
-  console.log(`listening on port ${PORT}`)
-);
+if (process.env.NODE_ENV === "production") {
+  //serve up production assets
+  app.use(express.static("client/build"));
+  //serve up html routes if it doesn't recognize route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+app.listen(PORT, console.log(`listening on port ${PORT}`));
