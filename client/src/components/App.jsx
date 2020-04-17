@@ -6,8 +6,8 @@ import history from "../history";
 import Header from "./Header";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
-import SurveyForm from "./SurveyForm";
-import SurveyList from "./SurveyList";
+import SurveyList from "./surveys/SurveyList";
+import SurveyNew from "./surveys/SurveyNew"
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -21,7 +21,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Landing} />
               <Route path="/surveys" exact component={Dashboard} />
-              <Route path="/surveys/new" exact component={SurveyForm} />
+              <Route path="/surveys/new" exact component={SurveyNew} />
               <Route path="/surveys/list" exact component={SurveyList} />
             </Switch>
           </div>

@@ -6,4 +6,6 @@ module.exports = {
   STRIPE_API_PUBLIC_KEY: process.env.STRIPE_API_PUBLIC_KEY,
   STRIPE_API_SECRET_KEY: process.env.STRIPE_API_SECRET_KEY,
   REACT_APP_STRIPE_API_PUBLIC_KEY: process.env.STRIPE_API_PUBLIC_KEY,
+  sendGridKey: process.env.sendGridKey,
+  redirectDomain: process.env.redirectDomain
 };
