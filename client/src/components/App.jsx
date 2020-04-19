@@ -7,26 +7,24 @@ import Header from "./Header";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import SurveyList from "./surveys/SurveyList";
-import SurveyNew from "./surveys/SurveyNew"
+import SurveyNew from "./surveys/SurveyNew";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
   }
   render() {
     return (
-      <div className="container">
-        <BrowserRouter history={history}>
-          <Header />
-          <div>
-            <Switch>
-              <Route path="/" exact component={Landing} />
-              <Route path="/surveys" exact component={Dashboard} />
-              <Route path="/surveys/new" exact component={SurveyNew} />
-              <Route path="/surveys/list" exact component={SurveyList} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter history={history}>
+        <Header />
+        <div className="container">
+          <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/surveys" exact component={Dashboard} />
+            <Route path="/surveys/new" exact component={SurveyNew} />
+            <Route path="/surveys/list" exact component={SurveyList} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
