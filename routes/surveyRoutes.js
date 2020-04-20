@@ -13,6 +13,12 @@ module.exports = (app) => {
   app.get("/api/surveys/:surveyId/:choice", (req, res) => {
     res.send("Thanks for voting!");
   });
+  app.get("/api/surveys", requireLogin, requireCredits, async (req, res) => {
+    const userSurveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false,
+    });
+    res.send(userSurveys);
+  });
   app.post("/api/surveys", requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
     const survey = new Survey({
