@@ -41,22 +41,37 @@ module.exports = (app) => {
     }
   });
   app.post("/api/surveys/webhooks", (req, res) => {
-    const events = _.map(req.body, ({ url, email }) => {
-      const pathname = new URL(url).pathname;
-      const p = new Path("/api/surveys/:surveyId/:choice");
-      const match = p.test(pathname);
-      if (match) {
-        return {
-          email,
-          surveyId: match.surveyId,
-          choice: match.choice,
-        };
-      }
-    });
-
-    const compactEvents = _.compact(events);
-    const deDupedEvents = _.uniqBy(compactEvents, "email", "surveyId");
-    console.log(deDupedEvents)
+    console.log("webhook route hit!");
+    _.chain(req.body)
+      .map(({ url, email }) => {
+        const p = new Path("/api/surveys/:surveyId/:choice");
+        const match = p.test(new URL(url).pathname);
+        if (match) {
+          return {
+            email,
+            surveyId: match.surveyId,
+            choice: match.choice,
+          };
+        }
+      })
+      .compact()
+      .uniqBy("email", "surveyId")
+      .each(({ email, choice, surveyId }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, clicked: false },
+            },
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { "recipients.$.clicked": true },
+            lastResponded: new Date(),
+          }
+        ).exec();
+      })
+      .value();
     res.send({});
   });
 };
